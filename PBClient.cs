@@ -4,13 +4,20 @@ using System.Threading.Tasks;
 
 namespace PushBulletNet
 {
-    public class PBClient
+    public class PBClient : Base
     {
-        internal static string token;
+        private static string Token { get; set; }
+        private static double CreatedAt { get; set; }
+        private static string Email { get; set; }
+        private static string NormalEmail { get; set; }
         
-        public PBClient(string Token)
+        public PBClient(string token)
         {
-            token = Token;
+            Token = token;
         }
+        
+        ///<summary>FindClient will find your PB client with your access token.</summary>
+        public async Task FindClient<ClientObject>(string token)
+            => await GetClient<ClientObject>(token).ConfigureAwait(false);
     }
 }
