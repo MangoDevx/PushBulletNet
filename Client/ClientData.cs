@@ -1,15 +1,10 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
-
-namespace PushBulletNet
+namespace PushBulletNet.Client
 {
-    public class ClientObject
+    public class ClientData
     {
-        internal ClientObject()
-        {
-        }
-
         [JsonProperty("created")]
         public double Created { get; internal set; }
 
@@ -33,5 +28,6 @@ namespace PushBulletNet
 
         [JsonProperty("name")]
         public string Name { get; internal set; }
+
     }
 }

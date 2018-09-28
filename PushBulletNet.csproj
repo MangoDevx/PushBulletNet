@@ -4,8 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
-    <StartupObject>Test.Program</StartupObject>
+    <StartupObject></StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="WrapperTest\WrapperTest\obj\**" />
+    <EmbeddedResource Remove="WrapperTest\WrapperTest\obj\**" />
+    <None Remove="WrapperTest\WrapperTest\obj\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
