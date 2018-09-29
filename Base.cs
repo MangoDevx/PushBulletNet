@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace PushBulletNet
 {
@@ -24,6 +25,26 @@ namespace PushBulletNet
                 var content = await get.Content.ReadAsStringAsync().ConfigureAwait(false);
                 Client.DefaultRequestHeaders.Clear();
                 return JsonConvert.DeserializeObject<T>(content);
+            }
+        }
+
+        public async Task SendPostReqAsync(string token, string url, string request)
+        {
+            try
+            {
+                Client.DefaultRequestHeaders.Add("Access-Token", token);
+                using (var get = await Client
+                    .PostAsync(url, new StringContent(request, Encoding.UTF8, "application/json"))
+                    .ConfigureAwait(false))
+                {
+                    if (!get.IsSuccessStatusCode)
+                        throw new Exception("SendPostReq failed!");
+                    Client.DefaultRequestHeaders.Clear();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
     }
