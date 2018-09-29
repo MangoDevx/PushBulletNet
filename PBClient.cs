@@ -27,7 +27,7 @@ namespace PushBulletNet.Client
         ///<summary>FindClient will find your PB client with your access token.</summary>
         public async Task FindClient()
         {
-            var cl = await GetClient(Token).ConfigureAwait(false);
+            var cl = await GetReq(Token, "https://api.pushbullet.com/v2/users/me", new ClientData()).ConfigureAwait(false);
             Name = cl.Name;
             Created = cl.Created;
             Email = cl.Email;
@@ -40,13 +40,13 @@ namespace PushBulletNet.Client
 
         public async Task GetDevices()
         {
-            var cl = await GetDevices(Token).ConfigureAwait(false);
+            var cl = await GetReq(Token, "https://api.pushbullet.com/v2/devices", new ClientDevices()).ConfigureAwait(false);
             Devices = cl.Devices;
         }
 
         public async Task GetPushes()
         {
-            var cl = await GetPushes(Token).ConfigureAwait(false);
+            var cl = await GetReq(Token, "https://api.pushbullet.com/v2/pushes", new ClientPushes()).ConfigureAwait(false);
             Pushes = cl.Pushes;
         }
     }
