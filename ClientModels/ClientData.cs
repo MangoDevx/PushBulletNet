@@ -9,7 +9,7 @@ namespace PushBulletNet.Client
         public double Created { get; internal set; }
 
         [JsonProperty("email")]
-        public string Email { get; set; }
+        public string Email { get; internal set; }
 
         [JsonProperty("email_normalized")]
         public string EmailNormalized { get; internal set; }
