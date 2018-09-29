@@ -24,7 +24,10 @@ namespace PushBulletNet.Client
             Token = token;
         }
 
-        ///<summary>FindClient will find your PB client with your access token.</summary>
+        /// <summary>
+        /// Finds your PB client
+        /// </summary>
+        /// <returns>Your PushBullet Client</returns>
         public async Task FindClient()
         {
             var cl = await GetReq(Token, "https://api.pushbullet.com/v2/users/me", new ClientData()).ConfigureAwait(false);
