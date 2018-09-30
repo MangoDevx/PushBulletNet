@@ -1,6 +1,6 @@
 ### This is my first time trying to make a wrapper. This is supposed to be for the PushBullet API.
 ![Nuget Listing](https://discord-is-down.party/77pGgQLL.png "Nuget listing")
-#### Getting started
+### Getting started
 1. Establish your PushBullet client.
 ```cs
 PBClient client = await PBClient.GetInstance("YourAPIToken");
