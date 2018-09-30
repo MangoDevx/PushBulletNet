@@ -7,7 +7,7 @@ namespace PushBulletNet
 {
     public class PBClient
     {
-        internal static string Token;
+        internal string Token;
         public ClientData UserData { get; private set; }
         public ClientDevices UserDevices { get; private set; }
         private Base NewBase { get; set; }
@@ -16,8 +16,8 @@ namespace PushBulletNet
         {
             var newBase = new Base();
             var cl = new PBClient(token);
-            cl.UserData = await newBase.GetRequestAsync<ClientData>(Token, "/users/me").ConfigureAwait(false);
-            cl.UserDevices = await newBase.GetRequestAsync<ClientDevices>(Token, "/devices").ConfigureAwait(false);
+            cl.UserData = await newBase.GetRequestAsync<ClientData>(token, "/users/me").ConfigureAwait(false);
+            cl.UserDevices = await newBase.GetRequestAsync<ClientDevices>(token, "/devices").ConfigureAwait(false);
             var cr = double.TryParse(cl.UserData.Created.ToString(), out var created);
             cl.Created = DateTimeOffset.FromUnixTimeSeconds((int)created);
             return cl;
