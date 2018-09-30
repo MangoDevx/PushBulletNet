@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace PushBulletNet.GET.ClientModels
 {
-    public sealed class ClientData
+    public struct ClientData
     {
         [JsonProperty("created")]
         public float Created { get; set; }

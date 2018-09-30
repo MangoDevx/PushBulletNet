@@ -9,24 +9,24 @@ namespace PushBulletNet
 {
     internal class Base
     {
-        private HttpClient Client { get; }
-        private JsonSerializer Serializer { get; }
+        private readonly HttpClient _client;
+        private readonly JsonSerializer _serializer;
 
         public Base()
         {
-            Client = new HttpClient();
-            Serializer = new JsonSerializer();
+            _client = new HttpClient();
+            _serializer = new JsonSerializer();
         }
 
         public async Task<T> GetRequestAsync<T>(string token, string url)
         {
-            Client.DefaultRequestHeaders.Add("Access-Token", token);
-            using (var get = await Client.GetAsync($"https://api.pushbullet.com/v2/{url}").ConfigureAwait(false))
+            _client.DefaultRequestHeaders.Add("Access-Token", token);
+            using (var get = await _client.GetAsync($"https://api.pushbullet.com/v2/{url}").ConfigureAwait(false))
             {
                 if (!get.IsSuccessStatusCode)
                     throw new Exception("GetReq failed!");
                 var content = await get.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                Client.DefaultRequestHeaders.Clear();
+                _client.DefaultRequestHeaders.Clear();
                 return ProcessStream<T>(content);
             }
         }
@@ -35,20 +35,20 @@ namespace PushBulletNet
         {
             using (var streamReader = new StreamReader(stream))
             using (var jsonReader = new JsonTextReader(streamReader))
-                return Serializer.Deserialize<T>(jsonReader);
+                return _serializer.Deserialize<T>(jsonReader);
         }
 
         public async Task PostRequestAsync(string token, string url, string request)
         {
             try
             {
-                Client.DefaultRequestHeaders.Add("Access-Token", token);
-                using (var get = await Client
+                _client.DefaultRequestHeaders.Add("Access-Token", token);
+                using (var get = await _client
                     .PostAsync(url, new StringContent(request, Encoding.UTF8, "application/json")).ConfigureAwait(false))
                 {
                     if (!get.IsSuccessStatusCode)
                         throw new Exception("SendPostReq failed!");
-                    Client.DefaultRequestHeaders.Clear();
+                    _client.DefaultRequestHeaders.Clear();
                 }
             }
             catch (Exception e)
