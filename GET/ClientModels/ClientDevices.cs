@@ -2,13 +2,13 @@
 
 namespace PushBulletNet.GET.ClientModels
 {
-    public sealed class ClientDevices
+    public struct ClientDevices
     {
         [JsonProperty("devices")]
         public Device[] Devices { get; set; }
     }
 
-    public sealed class Device
+    public struct Device
     {
         [JsonProperty("active")]
         public bool Active { get; set; }

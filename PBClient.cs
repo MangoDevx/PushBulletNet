@@ -11,7 +11,7 @@ namespace PushBulletNet
         private readonly string _token;
         public ClientData UserData { get; private set; }
         public ClientDevices UserDevices { get; private set; }
-        private Base NewBase { get; }
+        private readonly Base _newBase;
 
         public static async Task<PBClient> GetInstance(string token)
         {
@@ -22,7 +22,7 @@ namespace PushBulletNet
                 UserDevices = await newBase.GetRequestAsync<ClientDevices>(token, "/devices").ConfigureAwait(false)
             };
 
-            if(double.TryParse(cl.UserData.Created.ToString(CultureInfo.InvariantCulture), out var created))
+            if (double.TryParse(cl.UserData.Created.ToString(CultureInfo.InvariantCulture), out var created))
                 cl.Created = DateTimeOffset.FromUnixTimeSeconds((int)created);
 
             return cl;
@@ -33,11 +33,11 @@ namespace PushBulletNet
             _token = token;
             UserData = new ClientData();
             UserDevices = new ClientDevices();
-            NewBase = new Base();
+            _newBase = new Base();
         }
 
-        public Push[] Pushes { get; internal set; }
-        public DateTimeOffset Created { get; internal set; }
+        public Push[] Pushes { get; private set; }
+        public DateTimeOffset Created { get; private set; }
 
         /// <summary>
         /// Finds your past pushes
@@ -45,7 +45,7 @@ namespace PushBulletNet
         /// <returns>Your PushBullet pushes</returns>
         public async Task GetPushesAsync()
         {
-            var cl = await NewBase.GetRequestAsync<ClientPushes>(_token, "/pushes").ConfigureAwait(false);
+            var cl = await _newBase.GetRequestAsync<ClientPushes>(_token, "/pushes").ConfigureAwait(false);
             Pushes = cl.Pushes;
         }
 
@@ -56,7 +56,7 @@ namespace PushBulletNet
         public async Task PushRequestAsync(PushRequest req)
         {
             var request = $"{{\"title\":\"{req.Title}\",\"body\":\"{req.Content}\",\"target_device_iden\":\"{req.TargetDeviceIdentity}\",\"type\":\"note\"}}";
-            await NewBase.PostRequestAsync(_token, "https://api.pushbullet.com/v2/pushes", request).ConfigureAwait(false);
+            await _newBase.PostRequestAsync(_token, "https://api.pushbullet.com/v2/pushes", request).ConfigureAwait(false);
         }
     }
 }

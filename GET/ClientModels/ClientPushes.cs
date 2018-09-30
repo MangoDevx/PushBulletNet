@@ -2,13 +2,13 @@
 
 namespace PushBulletNet.GET.ClientModels
 {
-    public sealed class ClientPushes
+    public struct ClientPushes
     {
         [JsonProperty("pushes")]
         public Push[] Pushes { get; set; }
     }
 
-    public sealed class Push
+    public struct Push
     {
         [JsonProperty("active")]
         public bool Active { get; set; }
