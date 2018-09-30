@@ -9,8 +9,8 @@ namespace PushBulletNet
 {
     internal class Base
     {
-        internal HttpClient Client { get; }
-        internal JsonSerializer Serializer { get; }
+        private HttpClient Client { get; }
+        private JsonSerializer Serializer { get; }
 
         public Base()
         {
@@ -31,7 +31,7 @@ namespace PushBulletNet
             }
         }
 
-        internal T ProcessStream<T>(Stream stream)
+        private T ProcessStream<T>(Stream stream)
         {
             using (var streamReader = new StreamReader(stream))
             using (var jsonReader = new JsonTextReader(streamReader))
