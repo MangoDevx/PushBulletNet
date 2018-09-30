@@ -2,7 +2,7 @@
 
 namespace PushBulletNet.POST
 {
-    public class PostReq
+    public class PostRequest
     {
         [JsonProperty("device_iden")] public string TargetDeviceIdentity { get; set; }
 

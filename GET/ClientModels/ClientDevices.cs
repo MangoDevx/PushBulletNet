@@ -2,29 +2,39 @@
 
 namespace PushBulletNet.GET.ClientModels
 {
-    public class ClientDevices
+    public sealed class ClientDevices
     {
-        [JsonProperty("devices")] public Device[] Devices { get; set; }
+        [JsonProperty("devices")]
+        public Device[] Devices { get; set; }
     }
 
-    public class Device
+    public sealed class Device
     {
-        [JsonProperty("active")] public bool Active { get; set; }
+        [JsonProperty("active")]
+        public bool Active { get; set; }
 
-        [JsonProperty("app_version")] public long AppVersion { get; set; }
+        [JsonProperty("app_version")]
+        public long AppVersion { get; set; }
 
-        [JsonProperty("created")] public double Created { get; set; }
+        [JsonProperty("created")]
+        public double Created { get; set; }
 
-        [JsonProperty("iden")] public string Iden { get; set; }
+        [JsonProperty("iden")]
+        public string Iden { get; set; }
 
-        [JsonProperty("manufacturer")] public string Manufacturer { get; set; }
+        [JsonProperty("manufacturer")]
+        public string Manufacturer { get; set; }
 
-        [JsonProperty("model")] public string Model { get; set; }
+        [JsonProperty("model")]
+        public string Model { get; set; }
 
-        [JsonProperty("modified")] public double Modified { get; set; }
+        [JsonProperty("modified")]
+        public double Modified { get; set; }
 
-        [JsonProperty("nickname")] public string Nickname { get; set; }
+        [JsonProperty("nickname")]
+        public string Nickname { get; set; }
 
-        [JsonProperty("push_token")] public string PushToken { get; set; }
+        [JsonProperty("push_token")]
+        public string PushToken { get; set; }
     }
 }

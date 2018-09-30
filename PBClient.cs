@@ -5,64 +5,42 @@ using PushBulletNet.POST;
 
 namespace PushBulletNet
 {
-    public class PBClient : Base
+    public class PBClient
     {
         internal static string Token;
+        public ClientData UserData { get; private set; }
+        public ClientDevices UserDevices { get; private set; }
+        private Base NewBase { get; set; }
 
-        public PBClient(string token)
+        public static async Task<PBClient> GetInstance(string token)
+        {
+            var newBase = new Base();
+            var cl = new PBClient(token);
+            cl.UserData = await newBase.GetRequestAsync<ClientData>(Token, "/users/me").ConfigureAwait(false);
+            cl.UserDevices = await newBase.GetRequestAsync<ClientDevices>(Token, "/devices").ConfigureAwait(false);
+            var cr = double.TryParse(cl.UserData.Created.ToString(), out var created);
+            cl.Created = DateTimeOffset.FromUnixTimeSeconds((int)created);
+            return cl;
+        }
+
+        private PBClient(string token)
         {
             Token = token;
+            UserData = new ClientData();
+            UserDevices = new ClientDevices();
+            NewBase = new Base();
         }
 
-        public string Name { get; internal set; }
-        public string Email { get; set; }
-        public string EmailNormalized { get; internal set; }
-        public string Identity { get; internal set; }
-        public long MaxUploadSize { get; internal set; }
-        public double Created { get; internal set; }
-        public double Modified { get; internal set; }
-        public Uri ImageUrl { get; internal set; }
-        public Uri UploadUrl { get; internal set; }
-        public Device[] Devices { get; internal set; }
         public Push[] Pushes { get; internal set; }
-
-        /// <summary>
-        /// Finds your PB client
-        /// </summary>
-        /// <returns>Your PushBullet Client</returns>
-        public async Task FindClient()
-        {
-            var cl = await GetReqAsync(Token, "https://api.pushbullet.com/v2/users/me", new ClientData())
-                .ConfigureAwait(false);
-            Name = cl.Name;
-            Created = cl.Created;
-            Email = cl.Email;
-            EmailNormalized = cl.EmailNormalized;
-            Identity = cl.Iden;
-            ImageUrl = cl.ImageUrl;
-            MaxUploadSize = cl.MaxUploadSize;
-            Modified = cl.Modified;
-        }
-
-        /// <summary>
-        /// Finds your active devices
-        /// </summary>
-        /// <returns>Your PushBullet devices</returns>
-        public async Task GetDevices()
-        {
-            var cl = await GetReqAsync(Token, "https://api.pushbullet.com/v2/devices", new ClientDevices())
-                .ConfigureAwait(false);
-            Devices = cl.Devices;
-        }
+        public DateTimeOffset Created { get; internal set; }
 
         /// <summary>
         /// Finds your past pushes
         /// </summary>
         /// <returns>Your PushBullet pushes</returns>
-        public async Task GetPushes()
+        public async Task GetPushesAsync()
         {
-            var cl = await GetReqAsync(Token, "https://api.pushbullet.com/v2/pushes", new ClientPushes())
-                .ConfigureAwait(false);
+            var cl = await NewBase.GetRequestAsync<ClientPushes>(Token, "/pushes").ConfigureAwait(false);
             Pushes = cl.Pushes;
         }
 
@@ -70,13 +48,10 @@ namespace PushBulletNet
         /// Sends a push notification request
         /// </summary>
         /// <returns>Sends a push notification request</returns>
-        public async Task PushNotificationReq(PushReq req)
+        public async Task PushRequestAsync(PushRequest req)
         {
-            var cl = await GetReqAsync(Token, "https://api.pushbullet.com/v2/upload-request", new ClientRequests())
-                .ConfigureAwait(false);
-            UploadUrl = cl.UploadUrl;
-            var request =$"{{\"title\":\"{req.Title}\",\"body\":\"{req.Content}\",\"target_device_iden\":\"{req.TargetDeviceIdentity}\",\"type\":\"note\"}}";
-            await SendPostReqAsync(Token, "https://api.pushbullet.com/v2/pushes", request).ConfigureAwait(false);
+            var request = $"{{\"title\":\"{req.Title}\",\"body\":\"{req.Content}\",\"target_device_iden\":\"{req.TargetDeviceIdentity}\",\"type\":\"note\"}}";
+            await NewBase.PostRequestAsync(Token, "https://api.pushbullet.com/v2/pushes", request).ConfigureAwait(false);
         }
     }
 }

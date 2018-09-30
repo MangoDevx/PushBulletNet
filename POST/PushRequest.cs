@@ -2,7 +2,7 @@
 
 namespace PushBulletNet.POST
 {
-    public class PushReq : PostReq
+    public sealed class PushRequest : PostRequest
     {
         [JsonProperty("title")] public string Title { get; set; }
 
