@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using PushBulletNet.GET.ClientModels;
 using PushBulletNet.POST;
@@ -22,7 +23,7 @@ namespace PushBulletNet
                 UserDevices = await newBase.GetRequestAsync<ClientDevices>(token, "/devices").ConfigureAwait(false),
                 UserPushes = await newBase.GetRequestAsync<ClientPushes>(token, "/pushes").ConfigureAwait(false)
             };
-            double.TryParse(cl.UserData.Created.ToString(), out var result);
+            double.TryParse(cl.UserData.Created.ToString(CultureInfo.InvariantCulture), out var result);
             cl.UserData.CreationDate = DateTimeOffset.FromUnixTimeSeconds((int)result);
             return cl;
         }
