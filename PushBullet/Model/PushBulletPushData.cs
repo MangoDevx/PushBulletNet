@@ -4,7 +4,7 @@ namespace PushBulletNet.PushBullet.Model
 {
     public sealed class PushBulletPushData
     {
-        [JsonProperty("pushes")]
+        [JsonProperty("Pushes")]
         public PushBulletPush[] Pushes { get; set; }
     }
 

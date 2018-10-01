@@ -15,7 +15,7 @@ namespace PushBulletNet.PushBullet
         Task<PushBulletUser> GetClientData(string token);
         Task<IEnumerable<PushBulletDevice>> GetDevices(string token);
         Task<IEnumerable<PushBulletPush>> GetPushes(string token);
-        Task Post(string token, string title, string content);
+        Task Post(string token, string title, string content, string targetdeviceid, string url);
     }
 
     internal class PushBulletService : IPushBulletService
@@ -25,7 +25,6 @@ namespace PushBulletNet.PushBullet
 
         private const string ACCESS_TOKEN_HEADER = "Access-Token";
         private const string BASE_URI = "https://api.pushbullet.com/v2";
-        private const string BASE_POST_URI = BASE_URI + "/pushes";
 
         public PushBulletService()
         {
@@ -57,19 +56,17 @@ namespace PushBulletNet.PushBullet
 
             return pushes.Pushes;
         }
-
-        public async Task Post(string token, string title, string content)
+        
+        public async Task Post(string token, string title, string content, string targetdevideid, string url)
         {
             _client.DefaultRequestHeaders.Add(ACCESS_TOKEN_HEADER, token);
 
-            var pushRequest = new PushRequestModel(title, content);
+            var pushRequest = $"{{\"title\":\"{title}\",\"body\":\"{content}\",\"target_device_iden\":\"{targetdevideid}\",\"type\":\"note\"}}";
 
-            var serializedRequest = JsonConvert.SerializeObject(pushRequest);
-
-            using (var response = await _client.PostAsync(BuildUri(BASE_POST_URI), new StringContent(serializedRequest, Encoding.UTF8, "application/json")).ConfigureAwait(false))
+            using (var response = await _client.PostAsync(BuildUri("pushes"), new StringContent(pushRequest, Encoding.UTF8, "application/json")).ConfigureAwait(false))
             {
                 if (!response.IsSuccessStatusCode)
-                    throw new PushBulletRequestFailedException("The request did not succeed"); // TODO More verbose message for the consumer
+                    throw new PushBulletRequestFailedException("The request did not succeed"); // TODO More verbose message for the consumer - Coming right up sir
 
                 _client.DefaultRequestHeaders.Clear();
             }
@@ -82,7 +79,7 @@ namespace PushBulletNet.PushBullet
             using (var response = await _client.GetAsync(BuildUri(url)).ConfigureAwait(false))
             {
                 if (!response.IsSuccessStatusCode)
-                    throw new PushBulletRequestFailedException("The request did not succeed"); // TODO More verbose message for the consumer
+                    throw new PushBulletRequestFailedException("The request did not succeed"); // TODO More verbose message for the consumer - Coming right up sir
 
                 var content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 

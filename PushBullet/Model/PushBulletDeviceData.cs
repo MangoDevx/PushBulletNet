@@ -34,7 +34,7 @@ namespace PushBulletNet.PushBullet.Model
         [JsonProperty("nickname")]
         public string Nickname { get; set; }
 
-        [JsonProperty("push_token")]
+        [JsonProperty("Push_token")]
         public string PushToken { get; set; }
     }
 }

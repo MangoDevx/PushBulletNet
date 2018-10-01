@@ -31,7 +31,8 @@ namespace PushBulletNet
         /// <param name="title"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        Task Push(string title, string content);
+
+        Task PushAsync(string title, string content, string targetdeviceid);
     }
 
     public class PushBulletClient : IPushBulletClient
@@ -65,9 +66,9 @@ namespace PushBulletNet
         }
 
         /// <inheritdoc />
-        public Task Push(string title, string content)
+        public Task PushAsync(string title, string content, string targetdeviceid)
         {
-            return _pushBulletService.Post(_token, title, content);
+            return _pushBulletService.Post(_token, title, content, targetdeviceid, "pushes");
         }
     }
 }
