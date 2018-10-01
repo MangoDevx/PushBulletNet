@@ -1,12 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace PushBulletNet.GET.ClientModels
+namespace PushBulletNet.PushBullet.Model
 {
-    public sealed class ClientRequests
+    public sealed class PushBulletRequest
     {
         [JsonProperty("data")]
-        public Data Content { get; set; }
+        public PusbBulletRequestContent Content { get; set; }
 
         [JsonProperty("file_name")]
         public string FileName { get; set; }
@@ -20,13 +20,13 @@ namespace PushBulletNet.GET.ClientModels
         [JsonProperty("upload_url")]
         public Uri UploadUrl { get; set; }
 
-        public sealed class Data
+        public sealed class PusbBulletRequestContent
         {
             [JsonProperty("acl")]
             public string Acl { get; set; }
 
             [JsonProperty("awsaccesskeyid")]
-            public string Awsaccesskeyid { get; set; }
+            public string AwsAccessKeyId { get; set; }
 
             [JsonProperty("content-type")]
             public string ContentType { get; set; }
