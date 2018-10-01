@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <StartupObject></StartupObject>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Description>.NET wrapper for PushBullet.com</Description>
     <Copyright>MIT</Copyright>
@@ -18,6 +18,10 @@
     <FileVersion>0.0.1.0</FileVersion>
     <RepositoryUrl>https://github.com/Adomix/PushBulletNet</RepositoryUrl>
     <RepositoryType>Wrapper</RepositoryType>
+    <Authors>Mango</Authors>
+    <PackageReleaseNotes>0.1.0 Initial
+0.1.1 Fixed author</PackageReleaseNotes>
+    <Company>N/A</Company>
   </PropertyGroup>
 
   <ItemGroup>
