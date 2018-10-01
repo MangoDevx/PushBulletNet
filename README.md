@@ -5,11 +5,12 @@ Getting started
 ------
 1. Establish your PushBullet client. This will retrieve all your information.
 ```cs
-PBClient client = await PBClient.GetClientAsync("YourAPIToken");
+PushBullientClient client = new PushBulletClient("YourAPIToken");
 ```
-2. Update your information (devices/Pushes) if needed
+Call your desired information
 ```cs
-await client.UpdateDevicesAsync();
-await client.UpdatePushesAsync();
+var data = await client.GetUserDataAsync();
+var devices = await client.GetDevicesAsync();
+var pushes = await client.GetPushesAsync();
 ```
 3. For proper documentation, visit the [wiki](https://github.com/Adomix/PushBulletNet/wiki).
