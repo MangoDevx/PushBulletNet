@@ -40,20 +40,13 @@ namespace PushBulletNet
 
         public async Task PostRequestAsync(string token, string url, string request)
         {
-            try
+            _client.DefaultRequestHeaders.Add("Access-Token", token);
+            using (var get = await _client
+                .PostAsync(url, new StringContent(request, Encoding.UTF8, "application/json")).ConfigureAwait(false))
             {
-                _client.DefaultRequestHeaders.Add("Access-Token", token);
-                using (var get = await _client
-                    .PostAsync(url, new StringContent(request, Encoding.UTF8, "application/json")).ConfigureAwait(false))
-                {
-                    if (!get.IsSuccessStatusCode)
-                        throw new Exception("SendPostReq failed!");
-                    _client.DefaultRequestHeaders.Clear();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                if (!get.IsSuccessStatusCode)
+                    throw new Exception("SendPostReq failed!");
+                _client.DefaultRequestHeaders.Clear();
             }
         }
     }
