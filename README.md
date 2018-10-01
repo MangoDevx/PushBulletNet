@@ -12,4 +12,4 @@ PBClient client = await PBClient.GetClientAsync("YourAPIToken");
 await client.UpdateDevicesAsync();
 await client.UpdatePushesAsync();
 ```
-3. For proper documentation, visit the [wiki](https://github.com/Adomix/PushBulletNet/wiki/Getting-Started-With-PB.Net).
+3. For proper documentation, visit the [wiki](https://github.com/Adomix/PushBulletNet/wiki).
