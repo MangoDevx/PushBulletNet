@@ -1,14 +1,12 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace PushBulletNet.GET.ClientModels
+namespace PushBulletNet.PushBullet.Model
 {
-    public sealed class ClientData
+    public sealed class PushBulletUser
     {
         [JsonProperty("created")]
         internal double Created { get; set; }
-
-        public DateTimeOffset CreationDate { get; set; }
 
         [JsonProperty("email")]
         public string Email { get; set; }
@@ -30,5 +28,8 @@ namespace PushBulletNet.GET.ClientModels
 
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonIgnore]
+        public DateTimeOffset CreationDate { get; set; }
     }
 }
