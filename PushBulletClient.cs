@@ -11,19 +11,19 @@ namespace PushBulletNet
         /// Gets user data from PushBullet
         /// </summary>
         /// <returns></returns>
-        Task<PushBulletUser> GetUserData();
+        Task<PushBulletUser> GetUserDataAsync();
 
         /// <summary>
         /// Gets devices registered to PushBullet
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<PushBulletDevice>> GetDevices();
+        Task<IEnumerable<PushBulletDevice>> GetDevicesAsync();
 
         /// <summary>
         /// Gets all pushes by the client on PushBullet
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<PushBulletPush>> GetPushes();
+        Task<IEnumerable<PushBulletPush>> GetPushesAsync();
 
         /// <summary>
         /// Pushes a new request to the PushBullet service
@@ -48,19 +48,19 @@ namespace PushBulletNet
         }
 
         /// <inheritdoc />
-        public Task<PushBulletUser> GetUserData()
+        public Task<PushBulletUser> GetUserDataAsync()
         {
             return _pushBulletService.GetClientData(_token);
         }
 
         /// <inheritdoc />
-        public Task<IEnumerable<PushBulletDevice>> GetDevices()
+        public Task<IEnumerable<PushBulletDevice>> GetDevicesAsync()
         {
             return _pushBulletService.GetDevices(_token);
         }
 
         /// <inheritdoc />
-        public Task<IEnumerable<PushBulletPush>> GetPushes()
+        public Task<IEnumerable<PushBulletPush>> GetPushesAsync()
         {
             return _pushBulletService.GetPushes(_token);
         }
