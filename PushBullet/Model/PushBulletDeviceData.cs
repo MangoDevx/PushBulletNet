@@ -1,14 +1,14 @@
 ﻿using Newtonsoft.Json;
 
-namespace PushBulletNet.GET.ClientModels
+namespace PushBulletNet.PushBullet.Model
 {
-    public sealed class ClientDevices
+    public sealed class PushBulletDeviceData
     {
         [JsonProperty("devices")]
-        public Device[] Devices { get; set; }
+        public PushBulletDevice[] Devices { get; set; }
     }
 
-    public sealed class Device
+    public sealed class PushBulletDevice
     {
         [JsonProperty("active")]
         public bool Active { get; set; }
@@ -34,7 +34,7 @@ namespace PushBulletNet.GET.ClientModels
         [JsonProperty("nickname")]
         public string Nickname { get; set; }
 
-        [JsonProperty("push_token")]
+        [JsonProperty("Push_token")]
         public string PushToken { get; set; }
     }
 }

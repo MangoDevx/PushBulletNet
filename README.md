@@ -7,7 +7,7 @@ Getting started
 ```cs
 PBClient client = await PBClient.GetClientAsync("YourAPIToken");
 ```
-2. Update your information (devices/pushes) if needed
+2. Update your information (devices/Pushes) if needed
 ```cs
 await client.UpdateDevicesAsync();
 await client.UpdatePushesAsync();
