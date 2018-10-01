@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using PushBulletNet.GET.ClientModels;
 using PushBulletNet.POST;
@@ -19,10 +18,12 @@ namespace PushBulletNet
             var newBase = new Base();
             var cl = new PBClient(token)
             {
-                UserData = await newBase.GetRequestAsync<ClientData>(Token, "/users/me").ConfigureAwait(false),
-                UserDevices = await newBase.GetRequestAsync<ClientDevices>(Token, "/devices").ConfigureAwait(false),
-                UserPushes = await newBase.GetRequestAsync<ClientPushes>(Token, "/pushes").ConfigureAwait(false)
+                UserData = await newBase.GetRequestAsync<ClientData>(token, "/users/me").ConfigureAwait(false),
+                UserDevices = await newBase.GetRequestAsync<ClientDevices>(token, "/devices").ConfigureAwait(false),
+                UserPushes = await newBase.GetRequestAsync<ClientPushes>(token, "/pushes").ConfigureAwait(false)
             };
+            double.TryParse(cl.UserData.Created.ToString(), out var result);
+            cl.UserData.CreationDate = DateTimeOffset.FromUnixTimeSeconds((int)result);
             return cl;
         }
 
@@ -34,16 +35,19 @@ namespace PushBulletNet
             _newBase = new Base();
         }
 
-        public Push[] Pushes { get; internal set; }
+        /// <summary>
+        /// Updates your past pushes
+        /// </summary>
+        /// <returns>Your PushBullet devices</returns>
+        public async Task UpdateDevicesAsync()
+            => UserPushes = await _newBase.GetRequestAsync<ClientPushes>(_token, "/pushes").ConfigureAwait(false);
 
         /// <summary>
-        /// Finds your past pushes
+        /// Updates your past pushes
         /// </summary>
         /// <returns>Your PushBullet pushes</returns>
         public async Task UpdatePushesAsync()
-        {
-            UserPushes = await _newBase.GetRequestAsync<ClientPushes>(Token, "/pushes").ConfigureAwait(false);
-        }
+           => UserDevices = await _newBase.GetRequestAsync<ClientDevices>(_token, "/pushes").ConfigureAwait(false);
 
         /// <summary>
         /// Sends a push notification request
@@ -52,7 +56,7 @@ namespace PushBulletNet
         public async Task PushRequestAsync(PushRequest req)
         {
             var request = $"{{\"title\":\"{req.Title}\",\"body\":\"{req.Content}\",\"target_device_iden\":\"{req.TargetDeviceIdentity}\",\"type\":\"note\"}}";
-            await _newBase.PostRequestAsync(Token, "https://api.pushbullet.com/v2/pushes", request).ConfigureAwait(false);
+            await _newBase.PostRequestAsync(_token, "https://api.pushbullet.com/v2/pushes", request).ConfigureAwait(false);
         }
     }
 }

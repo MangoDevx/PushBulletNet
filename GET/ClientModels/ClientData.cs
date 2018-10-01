@@ -6,19 +6,9 @@ namespace PushBulletNet.GET.ClientModels
     public sealed class ClientData
     {
         [JsonProperty("created")]
-        public DateTimeOffset Created
-        {
-            get
-            {
-                if (double.TryParse(Created.ToString(), out var result))
-                    return DateTimeOffset.FromUnixTimeSeconds((int)result);
-                return Created;
-            }
-            set
-            {
+        internal double Created { get; set; }
 
-            }
-        }
+        public DateTimeOffset CreationDate { get; set; }
 
         [JsonProperty("email")]
         public string Email { get; set; }
