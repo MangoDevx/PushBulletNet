@@ -66,7 +66,7 @@ namespace PushBulletNet.PushBullet
             using (var response = await _client.PostAsync(BuildUri("pushes"), new StringContent(pushRequest, Encoding.UTF8, "application/json")).ConfigureAwait(false))
             {
                 if (!response.IsSuccessStatusCode)
-                    throw new PushBulletRequestFailedException("The request did not succeed"); // TODO More verbose message for the consumer - Coming right up sir
+                    throw new PushBulletRequestFailedException("POST request failed, is the request correct?");
 
                 _client.DefaultRequestHeaders.Clear();
             }
@@ -79,7 +79,7 @@ namespace PushBulletNet.PushBullet
             using (var response = await _client.GetAsync(BuildUri(url)).ConfigureAwait(false))
             {
                 if (!response.IsSuccessStatusCode)
-                    throw new PushBulletRequestFailedException("The request did not succeed"); // TODO More verbose message for the consumer - Coming right up sir
+                    throw new PushBulletRequestFailedException("GET request failed, is the correct token supplied?");
 
                 var content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
