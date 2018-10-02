@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace PushBulletNet.PushBullet.Model
 {
@@ -34,7 +34,7 @@ namespace PushBulletNet.PushBullet.Model
         [JsonProperty("nickname")]
         public string Nickname { get; set; }
 
-        [JsonProperty("Push_token")]
+        [JsonProperty("push_token")]
         public string PushToken { get; set; }
     }
 }
