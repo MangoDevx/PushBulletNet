@@ -3,11 +3,11 @@ This is my first time trying to make a wrapper. This is supposed to be for the P
 ![Nuget Listing](https://discord-is-down.party/77pGgQLL.png "Nuget listing")
 Getting started
 ------
-1. Establish your PushBullet client. This will retrieve all your information.
+1. Establish your client
 ```cs
 PushBullientClient client = new PushBulletClient("YourAPIToken");
 ```
-Call your desired information
+2. Call your desired information
 ```cs
 var data = await client.GetUserDataAsync();
 var devices = await client.GetDevicesAsync();
