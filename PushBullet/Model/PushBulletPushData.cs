@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace PushBulletNet.PushBullet.Model
 {
     public sealed class PushBulletPushData
     {
-        [JsonProperty("Pushes")]
+        [JsonProperty("pushes")]
         public PushBulletPush[] Pushes { get; set; }
     }
 
