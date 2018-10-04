@@ -15,6 +15,7 @@ namespace PushBulletNet.PushBullet
         Task<PushBulletUser> GetClientData(string token);
         Task<IEnumerable<PushBulletDevice>> GetDevices(string token);
         Task<IEnumerable<PushBulletPush>> GetPushes(string token);
+        Task<IEnumerable<PushBulletChat>> GetChats(string token);
         Task Post(string token, string title, string content, string targetdeviceid, string url);
     }
 
@@ -56,17 +57,24 @@ namespace PushBulletNet.PushBullet
 
             return pushes.Pushes;
         }
-        
+
+        public async Task<IEnumerable<PushBulletChat>> GetChats(string token)
+        {
+            var chats = await Get<PushBulletChatData>(token, "chats").ConfigureAwait(false);
+
+            return chats.Chats;
+        }
+
         public async Task Post(string token, string title, string content, string targetdevideid, string url)
         {
             _client.DefaultRequestHeaders.Add(ACCESS_TOKEN_HEADER, token);
 
             var pushRequest = $"{{\"title\":\"{title}\",\"body\":\"{content}\",\"target_device_iden\":\"{targetdevideid}\",\"type\":\"note\"}}";
 
-            using (var response = await _client.PostAsync(BuildUri("pushes"), new StringContent(pushRequest, Encoding.UTF8, "application/json")).ConfigureAwait(false))
+            using (var response = await _client.PostAsync(BuildUri(url), new StringContent(pushRequest, Encoding.UTF8, "application/json")).ConfigureAwait(false))
             {
                 if (!response.IsSuccessStatusCode)
-                    throw new PushBulletRequestFailedException("POST request failed, is the request correct?");
+                    throw new PushBulletRequestFailedException("POST request failed, is the request or token correct?");
 
                 _client.DefaultRequestHeaders.Clear();
             }

@@ -26,13 +26,17 @@ namespace PushBulletNet
         Task<IEnumerable<PushBulletPush>> GetPushesAsync();
 
         /// <summary>
+        /// Gets all chats by the client on PushBullet
+        /// </summary>
+        Task<IEnumerable<PushBulletChat>> GetChatsAsync();
+
+        /// <summary>
         /// Pushes a new request to the PushBullet service
         /// </summary>
         /// <param name="title"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-
-        Task PushAsync(string title, string content, string targetdeviceid);
+        Task PushAsync(string title, string content, string targetDeviceId);
     }
 
     public class PushBulletClient : IPushBulletClient
@@ -66,9 +70,15 @@ namespace PushBulletNet
         }
 
         /// <inheritdoc />
-        public Task PushAsync(string title, string content, string targetdeviceid)
+        public Task PushAsync(string title, string content, string targetDeviceId)
         {
-            return _pushBulletService.Post(_token, title, content, targetdeviceid, "pushes");
+            return _pushBulletService.Post(_token, title, content, targetDeviceId, "pushes");
+        }
+
+        /// <inheritdoc />
+        public Task<IEnumerable<PushBulletChat>> GetChatsAsync()
+        {
+            return _pushBulletService.GetChats(_token);
         }
     }
 }

@@ -6,7 +6,7 @@
     <OutputType>Library</OutputType>
     <StartupObject></StartupObject>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.2.2</Version>
+    <Version>0.2.3</Version>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Description>.NET wrapper for PushBullet.com</Description>
     <Copyright>MIT</Copyright>
@@ -14,13 +14,15 @@
     <PackageProjectUrl>https://github.com/Adomix/PushBulletNet</PackageProjectUrl>
     <PackageIconUrl>https://i.imgur.com/Vcllmax.png</PackageIconUrl>
     <PackageTags>.NET Wrapper C# Push PushBullet PB</PackageTags>
-    <AssemblyVersion>0.0.2.2</AssemblyVersion>
-    <FileVersion>0.0.2.2</FileVersion>
+    <AssemblyVersion>0.0.2.3</AssemblyVersion>
+    <FileVersion>0.0.2.3</FileVersion>
     <RepositoryUrl>https://github.com/Adomix/PushBulletNet</RepositoryUrl>
     <RepositoryType>Wrapper</RepositoryType>
     <Authors>Mango</Authors>
     <PackageReleaseNotes>0.2.0 - Complete new structure
-0.2.0 - Added async suffixes</PackageReleaseNotes>
+0.2.1 - Added async suffixes
+0.2.2 JSON fix
+0.2.3 Added "GetChatsAsync()"</PackageReleaseNotes>
     <Company>N/A</Company>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
