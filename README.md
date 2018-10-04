@@ -12,5 +12,6 @@ PushBullientClient client = new PushBulletClient("YourAPIToken");
 var data = await client.GetUserDataAsync();
 var devices = await client.GetDevicesAsync();
 var pushes = await client.GetPushesAsync();
+var chats = await client.GetChatsAsync();
 ```
 3. For proper documentation, visit the [wiki](https://github.com/Adomix/PushBulletNet/wiki).
