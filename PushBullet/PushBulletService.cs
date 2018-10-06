@@ -16,7 +16,8 @@ namespace PushBulletNet.PushBullet
         Task<IEnumerable<PushBulletDevice>> GetDevices(string token);
         Task<IEnumerable<PushBulletPush>> GetPushes(string token);
         Task<IEnumerable<PushBulletChat>> GetChats(string token);
-        Task Post(string token, string title, string content, string targetdeviceid, string url);
+        Task PushNotification(string token, string title, string content, string targetDevice);
+        Task CreateChat(string token, string targetEmail);
     }
 
     internal class PushBulletService : IPushBulletService
@@ -65,19 +66,16 @@ namespace PushBulletNet.PushBullet
             return chats.Chats;
         }
 
-        public async Task Post(string token, string title, string content, string targetdevideid, string url)
+        public async Task PushNotification(string token, string title, string content, string targetDevice)
         {
-            _client.DefaultRequestHeaders.Add(ACCESS_TOKEN_HEADER, token);
+            var pushRequest = $"{{\"title\":\"{title}\",\"body\":\"{content}\",\"target_device_iden\":\"{targetDevice}\",\"type\":\"note\"}}";
+            await Post(token, "pushes", pushRequest);
+        }
 
-            var pushRequest = $"{{\"title\":\"{title}\",\"body\":\"{content}\",\"target_device_iden\":\"{targetdevideid}\",\"type\":\"note\"}}";
-
-            using (var response = await _client.PostAsync(BuildUri(url), new StringContent(pushRequest, Encoding.UTF8, "application/json")).ConfigureAwait(false))
-            {
-                if (!response.IsSuccessStatusCode)
-                    throw new PushBulletRequestFailedException("POST request failed, is the request or token correct?");
-
-                _client.DefaultRequestHeaders.Clear();
-            }
+        public async Task CreateChat(string token, string targetEmail)
+        {
+            var pushRequest = $"{{\"email\":\"{targetEmail}\"}}";
+            await Post(token, "chats", pushRequest);
         }
 
         private async Task<T> Get<T>(string token, string url)
@@ -94,6 +92,19 @@ namespace PushBulletNet.PushBullet
                 _client.DefaultRequestHeaders.Clear();
 
                 return ProcessStream<T>(content);
+            }
+        }
+
+        private async Task Post(string token, string url, string req)
+        {
+            _client.DefaultRequestHeaders.Add(ACCESS_TOKEN_HEADER, token);
+
+            using (var response = await _client.PostAsync(BuildUri(url), new StringContent(req, Encoding.UTF8, "application/json")).ConfigureAwait(false))
+            {
+                if (!response.IsSuccessStatusCode)
+                    throw new PushBulletRequestFailedException("POST request failed, is the request correct?");
+
+                _client.DefaultRequestHeaders.Clear();
             }
         }
 

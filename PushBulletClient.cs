@@ -37,6 +37,14 @@ namespace PushBulletNet
         /// <param name="content"></param>
         /// <returns></returns>
         Task PushAsync(string title, string content, string targetDeviceId);
+
+        /// <summary>
+        /// Creates a new chat
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        Task CreateChatAsync(string targetEmail);
     }
 
     public class PushBulletClient : IPushBulletClient
@@ -70,15 +78,21 @@ namespace PushBulletNet
         }
 
         /// <inheritdoc />
-        public Task PushAsync(string title, string content, string targetDeviceId)
-        {
-            return _pushBulletService.Post(_token, title, content, targetDeviceId, "pushes");
-        }
-
-        /// <inheritdoc />
         public Task<IEnumerable<PushBulletChat>> GetChatsAsync()
         {
             return _pushBulletService.GetChats(_token);
+        }
+
+        /// <inheritdoc />
+        public Task PushAsync(string title, string content, string targetDeviceId)
+        {
+            return _pushBulletService.PushNotification(_token, title, content, targetDeviceId);
+        }
+
+        /// <inheritdoc />
+        public Task CreateChatAsync(string targetEmail)
+        {
+            return _pushBulletService.CreateChat(_token, targetEmail);
         }
     }
 }
