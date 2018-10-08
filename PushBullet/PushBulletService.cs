@@ -90,7 +90,7 @@ namespace PushBulletNet.PushBullet
                 {
                     var error = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var reason = ProcessStream<ErrorModel>(error);
-                    throw new PushBulletRequestFailedException($"GET request failed! Reason: {reason.Message} Cat: {reason.Cat} || Http ReasonPhrase: {response.ReasonPhrase}");
+                    throw new PushBulletRequestFailedException($"GET request failed! {response.ReasonPhrase} || {reason.Cat} {reason.Message} {reason.Happy}");
                 }
 
                 var content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
@@ -111,7 +111,7 @@ namespace PushBulletNet.PushBullet
                 {
                     var error = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var reason = ProcessStream<ErrorModel>(error);
-                    throw new PushBulletRequestFailedException($"POST request failed! Reason: {reason.Message} Cat: {reason.Cat} || Http ReasonPhrase: {response.ReasonPhrase}");
+                    throw new PushBulletRequestFailedException($"GET request failed! {response.ReasonPhrase} || {reason.Cat} {reason.Message} {reason.Happy}");
                 }
 
                 _client.DefaultRequestHeaders.Clear();
