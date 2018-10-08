@@ -94,8 +94,9 @@ namespace PushBulletNet.PushBullet
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine(response.ReasonPhrase);
-                    throw new PushBulletRequestFailedException("GET request failed, is the correct token supplied?");
+                    var content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var reason = ProcessStream<ErrorModel>(content);
+                    throw new PushBulletRequestFailedException($"GET request failed! Reason: {reason.Message} Cat: {reason.Cat} || Http ReasonPhrase: {response.ReasonPhrase}");
                 }
 
                 var content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
@@ -114,8 +115,9 @@ namespace PushBulletNet.PushBullet
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine(response.ReasonPhrase);
-                    throw new PushBulletRequestFailedException("POST request failed, is the request correct?");
+                    var content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var reason = ProcessStream<ErrorModel>(content);
+                    throw new PushBulletRequestFailedException($"POST request failed! Reason: {reason.Message} Cat: {reason.Cat} || Http ReasonPhrase: {response.ReasonPhrase}");
                 }
 
                 _client.DefaultRequestHeaders.Clear();
