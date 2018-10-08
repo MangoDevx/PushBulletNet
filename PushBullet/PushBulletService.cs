@@ -94,8 +94,7 @@ namespace PushBulletNet.PushBullet
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    var error = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                    Console.WriteLine(ProcessStream<string>(error));
+                    Console.WriteLine(response.ReasonPhrase);
                     throw new PushBulletRequestFailedException("GET request failed, is the correct token supplied?");
                 }
 
@@ -115,8 +114,7 @@ namespace PushBulletNet.PushBullet
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    var error = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                    Console.WriteLine(ProcessStream<string>(error));
+                    Console.WriteLine(response.ReasonPhrase);
                     throw new PushBulletRequestFailedException("POST request failed, is the request correct?");
                 }
 
