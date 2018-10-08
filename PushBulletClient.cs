@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using PushBulletNet.PushBullet;
 using PushBulletNet.PushBullet.Model;
+using PushBulletNet.PushBullet.Model.RequestModels;
 
 namespace PushBulletNet
 {
@@ -38,13 +39,22 @@ namespace PushBulletNet
         /// <returns></returns>
         Task PushAsync(string title, string content, string targetDeviceId);
 
+        /*
         /// <summary>
         /// Creates a new chat
         /// </summary>
         /// <param name="title"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        Task CreateChatAsync(string targetEmail);
+        Task CreateChatAsync(string targetEmail); Broken ATM :(*/
+
+        /// <summary>
+        /// Creates a new chat
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        Task CreateDeviceAsync(NewDeviceModel model);
     }
 
     public class PushBulletClient : IPushBulletClient
@@ -86,13 +96,32 @@ namespace PushBulletNet
         /// <inheritdoc />
         public Task PushAsync(string title, string content, string targetDeviceId)
         {
-            return _pushBulletService.PushNotification(_token, title, content, targetDeviceId);
+            var request = new NotificationRequestModel()
+            {
+                Title = title,
+                Content = content,
+                TargetDeviceIdentity = targetDeviceId,
+                PushType = "note"
+            };
+            return _pushBulletService.PushNotification(_token, request);
         }
 
+        /* Broken, keeps saying the request is invalid.
         /// <inheritdoc />
         public Task CreateChatAsync(string targetEmail)
         {
-            return _pushBulletService.CreateChat(_token, targetEmail);
+            var request = new PushRequestModel()
+            {
+                Email = targetEmail
+            };
+
+            return _pushBulletService.CreateChat(_token, request);
+        }*/
+
+        /// <inheritdoc />
+        public Task CreateDeviceAsync(NewDeviceModel model)
+        {
+            return _pushBulletService.CreateDevice(_token, model);
         }
     }
 }

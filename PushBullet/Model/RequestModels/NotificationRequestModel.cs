@@ -1,14 +1,12 @@
 ﻿using Newtonsoft.Json;
 
-namespace PushBulletNet.PushBullet.Model
+namespace PushBulletNet.PushBullet.Model.RequestModels
 {
-    public sealed class PushRequestModel
+    public sealed class NotificationRequestModel
     {
-        public PushRequestModel(string title, string content, string targetdeviceid)
+        public NotificationRequestModel()
         {
-            Title = title;
-            Content = content;
-            TargetDeviceIdentity = TargetDeviceIdentity;
+
         }
 
         [JsonProperty("title")]
@@ -27,7 +25,7 @@ namespace PushBulletNet.PushBullet.Model
         public string Email { get; set; }
 
         [JsonProperty("source_device_iden")]
-        public string SourceDeviceIdentity { get; set; }  
+        public string SourceDeviceIdentity { get; set; }
 
         [JsonProperty("client_iden")]
         public string ClientIdentity { get; set; }
