@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace PushBulletNet.PushBullet.Model.RequestModels
+namespace PushBulletNet.PushBullet.Models.PostModels
 {
     public sealed class NewDeviceModel
     {

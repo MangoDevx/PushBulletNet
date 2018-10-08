@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PushBulletNet.Exceptions;
-using PushBulletNet.PushBullet.Model;
-using PushBulletNet.PushBullet.Model.RequestModels;
+using PushBulletNet.PushBullet.Models;
+using PushBulletNet.PushBullet.Models.GetModels;
+using PushBulletNet.PushBullet.Models.PostModels;
 
 namespace PushBulletNet.PushBullet
 {
@@ -17,8 +18,7 @@ namespace PushBulletNet.PushBullet
         Task<IEnumerable<PushBulletDevice>> GetDevices(string token);
         Task<IEnumerable<PushBulletPush>> GetPushes(string token);
         Task<IEnumerable<PushBulletChat>> GetChats(string token);
-        Task PushNotification(string token, NotificationRequestModel request);
-        //Task CreateChat(string token, PushRequestModel request); Maintenance :whistles:
+        Task PushNotification(string token, NotificationPostModel request);
         Task CreateDevice(string token, NewDeviceModel model);
     }
 
@@ -68,22 +68,16 @@ namespace PushBulletNet.PushBullet
             return chats.Chats;
         }
 
-        public async Task PushNotification(string token, NotificationRequestModel request)
+        public async Task PushNotification(string token, NotificationPostModel request)
         {
             var pushRequest = JsonConvert.SerializeObject(request);
-            await Post(token, "pushes", pushRequest);
+            await Post(token, "pushes", pushRequest).ConfigureAwait(false);
         }
-
-        /*public async Task CreateChat(string token, PushRequestModel request)
-        {
-            var pushRequest = JsonConvert.SerializeObject(request);
-            await Post(token, "chats", pushRequest);
-        }*/
 
         public async Task CreateDevice(string token, NewDeviceModel model)
         {
             var pushRequest = JsonConvert.SerializeObject(model);
-            await Post(token, "devices", pushRequest);
+            await Post(token, "devices", pushRequest).ConfigureAwait(false);
         }
 
         private async Task<T> Get<T>(string token, string url)
@@ -94,8 +88,8 @@ namespace PushBulletNet.PushBullet
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    var content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                    var reason = ProcessStream<ErrorModel>(content);
+                    var error = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var reason = ProcessStream<ErrorModel>(error);
                     throw new PushBulletRequestFailedException($"GET request failed! Reason: {reason.Message} Cat: {reason.Cat} || Http ReasonPhrase: {response.ReasonPhrase}");
                 }
 
@@ -115,8 +109,8 @@ namespace PushBulletNet.PushBullet
             {
                 if (!response.IsSuccessStatusCode)
                 {
-                    var content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                    var reason = ProcessStream<ErrorModel>(content);
+                    var error = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                    var reason = ProcessStream<ErrorModel>(error);
                     throw new PushBulletRequestFailedException($"POST request failed! Reason: {reason.Message} Cat: {reason.Cat} || Http ReasonPhrase: {response.ReasonPhrase}");
                 }
 

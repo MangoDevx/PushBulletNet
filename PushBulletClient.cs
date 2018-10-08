@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PushBulletNet.PushBullet;
-using PushBulletNet.PushBullet.Model;
-using PushBulletNet.PushBullet.Model.RequestModels;
+using PushBulletNet.PushBullet.Models;
+using PushBulletNet.PushBullet.Models.PostModels;
 
 namespace PushBulletNet
 {
@@ -38,15 +38,6 @@ namespace PushBulletNet
         /// <param name="content"></param>
         /// <returns></returns>
         Task PushAsync(string title, string content, string targetDeviceId);
-
-        /*
-        /// <summary>
-        /// Creates a new chat
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="content"></param>
-        /// <returns></returns>
-        Task CreateChatAsync(string targetEmail); Broken ATM :(*/
 
         /// <summary>
         /// Creates a new chat
@@ -96,7 +87,7 @@ namespace PushBulletNet
         /// <inheritdoc />
         public Task PushAsync(string title, string content, string targetDeviceId)
         {
-            var request = new NotificationRequestModel()
+            var request = new NotificationPostModel()
             {
                 Title = title,
                 Content = content,
@@ -105,18 +96,6 @@ namespace PushBulletNet
             };
             return _pushBulletService.PushNotification(_token, request);
         }
-
-        /* Broken, keeps saying the request is invalid.
-        /// <inheritdoc />
-        public Task CreateChatAsync(string targetEmail)
-        {
-            var request = new PushRequestModel()
-            {
-                Email = targetEmail
-            };
-
-            return _pushBulletService.CreateChat(_token, request);
-        }*/
 
         /// <inheritdoc />
         public Task CreateDeviceAsync(NewDeviceModel model)

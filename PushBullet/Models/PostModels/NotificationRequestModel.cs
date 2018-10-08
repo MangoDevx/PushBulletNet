@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 
-namespace PushBulletNet.PushBullet.Model.RequestModels
+namespace PushBulletNet.PushBullet.Models.PostModels
 {
-    public sealed class NotificationRequestModel
+    public sealed class NotificationPostModel
     {
-        public NotificationRequestModel()
+        public NotificationPostModel()
         {
 
         }

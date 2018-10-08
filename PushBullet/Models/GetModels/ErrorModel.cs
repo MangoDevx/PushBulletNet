@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace PushBulletNet.PushBullet.Model
+namespace PushBulletNet.PushBullet.Models.GetModels
 {
     public sealed class ErrorModel
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace PushBulletNet.PushBullet.Model
+namespace PushBulletNet.PushBullet.Models
 {
     public sealed class PushBulletUser
     {

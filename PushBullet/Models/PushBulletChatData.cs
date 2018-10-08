@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace PushBulletNet.PushBullet.Model
+namespace PushBulletNet.PushBullet.Models
 {
     public sealed class PushBulletChatData
     {
