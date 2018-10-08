@@ -1,6 +1,6 @@
 This is my first time making an API wrapper. This is for the PushBullet API.
 ------
-![Nuget Listing](https://discord-is-down.party/77pGgQLL.png "Nuget listing")
+![Nuget Listing](http://mangoman.me/ss/ofrtx.png "Nuget listing")
 Getting started
 ------
 1. Establish your client
