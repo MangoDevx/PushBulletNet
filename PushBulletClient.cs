@@ -63,25 +63,25 @@ namespace PushBulletNet
         /// <inheritdoc />
         public Task<PushBulletUser> GetUserDataAsync()
         {
-            return _pushBulletService.GetClientData(_token);
+            return _pushBulletService.GetClientData();
         }
 
         /// <inheritdoc />
         public Task<IEnumerable<PushBulletDevice>> GetDevicesAsync()
         {
-            return _pushBulletService.GetDevices(_token);
+            return _pushBulletService.GetDevices();
         }
 
         /// <inheritdoc />
         public Task<IEnumerable<PushBulletPush>> GetPushesAsync()
         {
-            return _pushBulletService.GetPushes(_token);
+            return _pushBulletService.GetPushes();
         }
 
         /// <inheritdoc />
         public Task<IEnumerable<PushBulletChat>> GetChatsAsync()
         {
-            return _pushBulletService.GetChats(_token);
+            return _pushBulletService.GetChats();
         }
 
         /// <inheritdoc />
@@ -94,13 +94,13 @@ namespace PushBulletNet
                 TargetDeviceIdentity = targetDeviceId,
                 PushType = "note"
             };
-            return _pushBulletService.PushNotification(_token, request);
+            return _pushBulletService.PushNotification(request);
         }
 
         /// <inheritdoc />
         public Task CreateDeviceAsync(NewDeviceModel model)
         {
-            return _pushBulletService.CreateDevice(_token, model);
+            return _pushBulletService.CreateDevice(model);
         }
     }
 }
