@@ -40,12 +40,28 @@ namespace PushBulletNet
         Task PushAsync(string title, string content, string targetDeviceId);
 
         /// <summary>
-        /// Creates a new chat
+        /// Creates a new device
         /// </summary>
         /// <param name="title"></param>
         /// <param name="content"></param>
         /// <returns></returns>
         Task CreateDeviceAsync(NewDeviceModel model);
+
+        /// <summary>
+        /// Creates a new chat
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        Task CreateChatAsync(string email);
+
+        /// <summary>
+        /// Creates a new subscription
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        Task CreateSubscriptionAsync(string channeltag);
     }
 
     public class PushBulletClient : IPushBulletClient
@@ -101,6 +117,18 @@ namespace PushBulletNet
         public Task CreateDeviceAsync(NewDeviceModel model)
         {
             return _pushBulletService.CreateDevice(model);
+        }
+
+        /// <inheritdoc />
+        public Task CreateChatAsync(string email)
+        {
+            return _pushBulletService.CreateChat(email);
+        }
+
+        /// <inheritdoc />
+        public Task CreateSubscriptionAsync(string chantag)
+        {
+            return _pushBulletService.CreateSubscription(chantag);
         }
     }
 }

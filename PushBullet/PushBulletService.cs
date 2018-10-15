@@ -20,6 +20,8 @@ namespace PushBulletNet.PushBullet
         Task<IEnumerable<PushBulletChat>> GetChats();
         Task PushNotification(NotificationPostModel request);
         Task CreateDevice(NewDeviceModel model);
+        Task CreateChat(string email);
+        Task CreateSubscription(string channeltag);
     }
 
     internal class PushBulletService : IPushBulletService
@@ -82,6 +84,16 @@ namespace PushBulletNet.PushBullet
             await Post(_token, "devices", pushRequest).ConfigureAwait(false);
         }
 
+        public async Task CreateChat(string email)
+        {
+            await Post(_token, "chats", $"{{\"email\": \"{email}\"}}").ConfigureAwait(false);
+        }
+
+        public async Task CreateSubscription(string channeltag)
+        {
+            await Post(_token, "subscriptions", $"{{\"channel_tag\": \"{channeltag}\"}}").ConfigureAwait(false);
+        }
+
         private async Task<T> Get<T>(string token, string url)
         {
             _client.DefaultRequestHeaders.Add(ACCESS_TOKEN_HEADER, token);
@@ -92,7 +104,7 @@ namespace PushBulletNet.PushBullet
                 {
                     var error = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var reason = ProcessStream<ErrorModel>(error);
-                    throw new PushBulletRequestFailedException($"GET request failed! {response.ReasonPhrase} || {reason.Cat} {reason.Message} {reason.Happy}");
+                    throw new PushBulletRequestFailedException($"GET request failed! {response.ReasonPhrase} || API Response: {reason.Cat ?? "N/A"} {reason.Message ?? "N/A"} {reason.Happy}");
                 }
 
                 var content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
@@ -113,7 +125,7 @@ namespace PushBulletNet.PushBullet
                 {
                     var error = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     var reason = ProcessStream<ErrorModel>(error);
-                    throw new PushBulletRequestFailedException($"POST request failed! {response.ReasonPhrase} || {reason.Cat} {reason.Message} {reason.Happy}");
+                    throw new PushBulletRequestFailedException($"POST request failed! {response.ReasonPhrase} || API Response: {reason.Cat ?? "N/A"} {reason.Message ?? "N/A"} {reason.Happy}");
                 }
 
                 _client.DefaultRequestHeaders.Clear();
