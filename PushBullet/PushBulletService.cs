@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -14,31 +14,33 @@ namespace PushBulletNet.PushBullet
 {
     internal interface IPushBulletService
     {
-        Task<PushBulletUser> GetClientData(string token);
-        Task<IEnumerable<PushBulletDevice>> GetDevices(string token);
-        Task<IEnumerable<PushBulletPush>> GetPushes(string token);
-        Task<IEnumerable<PushBulletChat>> GetChats(string token);
-        Task PushNotification(string token, NotificationPostModel request);
-        Task CreateDevice(string token, NewDeviceModel model);
+        Task<PushBulletUser> GetClientData();
+        Task<IEnumerable<PushBulletDevice>> GetDevices();
+        Task<IEnumerable<PushBulletPush>> GetPushes();
+        Task<IEnumerable<PushBulletChat>> GetChats();
+        Task PushNotification(NotificationPostModel request);
+        Task CreateDevice(NewDeviceModel model);
     }
 
     internal class PushBulletService : IPushBulletService
     {
+        private readonly string _token;
         private readonly HttpClient _client;
         private readonly JsonSerializer _serializer;
 
         private const string ACCESS_TOKEN_HEADER = "Access-Token";
         private const string BASE_URI = "https://api.pushbullet.com/v2";
 
-        public PushBulletService()
+        public PushBulletService(string token)
         {
+            _token = token;
             _client = new HttpClient();
             _serializer = new JsonSerializer();
         }
 
-        public async Task<PushBulletUser> GetClientData(string token)
+        public async Task<PushBulletUser> GetClientData()
         {
-            var clientData = await Get<PushBulletUser>(token, "users/me").ConfigureAwait(false);
+            var clientData = await Get<PushBulletUser>(_token, "users/me").ConfigureAwait(false);
 
             var createdSecondsAgo = clientData.Created;
 
@@ -47,37 +49,37 @@ namespace PushBulletNet.PushBullet
             return clientData;
         }
 
-        public async Task<IEnumerable<PushBulletDevice>> GetDevices(string token)
+        public async Task<IEnumerable<PushBulletDevice>> GetDevices()
         {
-            var devices = await Get<PushBulletDeviceData>(token, "devices").ConfigureAwait(false);
+            var devices = await Get<PushBulletDeviceData>(_token, "devices").ConfigureAwait(false);
 
             return devices.Devices;
         }
 
-        public async Task<IEnumerable<PushBulletPush>> GetPushes(string token)
+        public async Task<IEnumerable<PushBulletPush>> GetPushes()
         {
-            var pushes = await Get<PushBulletPushData>(token, "pushes").ConfigureAwait(false);
+            var pushes = await Get<PushBulletPushData>(_token, "pushes").ConfigureAwait(false);
 
             return pushes.Pushes;
         }
 
-        public async Task<IEnumerable<PushBulletChat>> GetChats(string token)
+        public async Task<IEnumerable<PushBulletChat>> GetChats()
         {
-            var chats = await Get<PushBulletChatData>(token, "chats").ConfigureAwait(false);
+            var chats = await Get<PushBulletChatData>(_token, "chats").ConfigureAwait(false);
 
             return chats.Chats;
         }
 
-        public async Task PushNotification(string token, NotificationPostModel request)
+        public async Task PushNotification(NotificationPostModel request)
         {
             var pushRequest = JsonConvert.SerializeObject(request);
-            await Post(token, "pushes", pushRequest).ConfigureAwait(false);
+            await Post(_token, "pushes", pushRequest).ConfigureAwait(false);
         }
 
-        public async Task CreateDevice(string token, NewDeviceModel model)
+        public async Task CreateDevice(NewDeviceModel model)
         {
             var pushRequest = JsonConvert.SerializeObject(model);
-            await Post(token, "devices", pushRequest).ConfigureAwait(false);
+            await Post(_token, "devices", pushRequest).ConfigureAwait(false);
         }
 
         private async Task<T> Get<T>(string token, string url)
