@@ -56,7 +56,7 @@ namespace PushBulletNet
 
         public PushBulletClient(string token)
         {
-            _pushBulletService = new PushBulletService();
+            _pushBulletService = new PushBulletService(token);
             _token = token;
         }
 
