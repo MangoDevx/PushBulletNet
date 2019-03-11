@@ -1,6 +1,6 @@
 This is my first time making an API wrapper. This is for the PushBullet API.
 ------
-![Nuget Listing](https://www.nuget.org/packages/PushBulletNet/"Nuget listing")
+https://www.nuget.org/packages/PushBulletNet/
 Getting started
 ------
 1. Establish your client
